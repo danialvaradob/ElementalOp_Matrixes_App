@@ -14,13 +14,15 @@ import javax.swing.*;
  * @author danielalvarado
  */
 public class NewJFrame extends javax.swing.JFrame {
-
+        
+    public JTextField[][] buttonsMatrix;
     /**
      * Creates new form NewJFrame
      */
     public NewJFrame() {
         initComponents();
         createGrid();
+        buttonsMatrix[0][2].setText("hahaha");
     }
 
     private void createGrid() {
@@ -36,6 +38,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
                 gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
                 jPanel1.add(position00TextEdit, gridBagConstraints);
+                this.buttonsMatrix[i][j] = position00TextEdit;
             }
         }
     }

@@ -8,10 +8,12 @@ package frames;
 import static frames.Instruction.BAD_INPUT;
 import static frames.Instruction.OPERATE_ROWS;
 import static frames.Instruction.SWAP_ROWS;
+import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import javax.swing.JTextField;
 
 /**
  *
@@ -24,7 +26,8 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
-        hideMatrix();
+        createGrid();
+        //hideMatrix();
         String input = "1/3F2+100/200F1";
         String i2 = "F2";
         /*
@@ -41,6 +44,24 @@ public class MainFrame extends javax.swing.JFrame {
         
     }
     
+    private void createGrid() {
+        for (int i =0; i < 5; i ++ ) {
+            for (int j = 0; j < 5;j++) {
+                JTextField position00TextEdit = new javax.swing.JTextField();
+                position00TextEdit.setText("0");
+                GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+                gridBagConstraints.gridx = i;
+                gridBagConstraints.gridy = j;
+                gridBagConstraints.ipadx = 39;
+                gridBagConstraints.ipady = 13;
+                gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+                gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
+                jPanel1.add(position00TextEdit, gridBagConstraints);
+                //this.buttonsMatrix[i][j] = position00TextEdit;
+            }
+            
+        }
+    }
     
     private double parse(String ratio) {
         if (ratio.contains("/")) {
@@ -51,8 +72,9 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    /*
     private void hideMatrix() {
-         position00TextEdit.setVisible(false);
+        position00TextEdit.setVisible(false);
         position02TextEdit.setVisible(false);
         position01TextEdit.setVisible(false);
         position03TextEdit.setVisible(false);
@@ -127,7 +149,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
     }
-    
+    */
     private Instruction verifyString(String _string) {
         
         int fChars = 0;
@@ -287,34 +309,8 @@ public class MainFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
-        position00TextEdit = new javax.swing.JTextField();
-        position02TextEdit = new javax.swing.JTextField();
-        position01TextEdit = new javax.swing.JTextField();
-        position03TextEdit = new javax.swing.JTextField();
-        position04TextEdit = new javax.swing.JTextField();
-        position10TextEdit = new javax.swing.JTextField();
-        position14TextEdit = new javax.swing.JTextField();
-        position13TextEdit = new javax.swing.JTextField();
-        position12TextEdit = new javax.swing.JTextField();
-        position11TextEdit = new javax.swing.JTextField();
-        position20TextEdit = new javax.swing.JTextField();
-        position24TextEdit = new javax.swing.JTextField();
-        position23TextEdit = new javax.swing.JTextField();
-        position22TextEdit = new javax.swing.JTextField();
-        position21TextEdit = new javax.swing.JTextField();
-        position30TextEdit = new javax.swing.JTextField();
-        position34TextEdit = new javax.swing.JTextField();
-        position33TextEdit = new javax.swing.JTextField();
-        position32TextEdit = new javax.swing.JTextField();
-        position31TextEdit = new javax.swing.JTextField();
-        position40TextEdit = new javax.swing.JTextField();
-        position44TextEdit = new javax.swing.JTextField();
-        position43TextEdit = new javax.swing.JTextField();
-        position42TextEdit = new javax.swing.JTextField();
-        position41TextEdit = new javax.swing.JTextField();
         mTextEdit = new javax.swing.JTextField();
         nTextEdit = new javax.swing.JTextField();
         createMatrixBtn = new javax.swing.JButton();
@@ -329,286 +325,6 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        position00TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position00TextEdit, gridBagConstraints);
-
-        position02TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position02TextEdit, gridBagConstraints);
-
-        position01TextEdit.setText("0");
-        position01TextEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                position01TextEditActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position01TextEdit, gridBagConstraints);
-
-        position03TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position03TextEdit, gridBagConstraints);
-
-        position04TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
-        jPanel1.add(position04TextEdit, gridBagConstraints);
-
-        position10TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position10TextEdit, gridBagConstraints);
-
-        position14TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
-        jPanel1.add(position14TextEdit, gridBagConstraints);
-
-        position13TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position13TextEdit, gridBagConstraints);
-
-        position12TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position12TextEdit, gridBagConstraints);
-
-        position11TextEdit.setText("0");
-        position11TextEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                position11TextEditActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position11TextEdit, gridBagConstraints);
-
-        position20TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position20TextEdit, gridBagConstraints);
-
-        position24TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
-        jPanel1.add(position24TextEdit, gridBagConstraints);
-
-        position23TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position23TextEdit, gridBagConstraints);
-
-        position22TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position22TextEdit, gridBagConstraints);
-
-        position21TextEdit.setText("0");
-        position21TextEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                position21TextEditActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position21TextEdit, gridBagConstraints);
-
-        position30TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position30TextEdit, gridBagConstraints);
-
-        position34TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 6);
-        jPanel1.add(position34TextEdit, gridBagConstraints);
-
-        position33TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position33TextEdit, gridBagConstraints);
-
-        position32TextEdit.setText("0");
-        position32TextEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                position32TextEditActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position32TextEdit, gridBagConstraints);
-
-        position31TextEdit.setText("0");
-        position31TextEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                position31TextEditActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-        jPanel1.add(position31TextEdit, gridBagConstraints);
-
-        position40TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 15, 0);
-        jPanel1.add(position40TextEdit, gridBagConstraints);
-
-        position44TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 15, 6);
-        jPanel1.add(position44TextEdit, gridBagConstraints);
-
-        position43TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 15, 0);
-        jPanel1.add(position43TextEdit, gridBagConstraints);
-
-        position42TextEdit.setText("0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 15, 0);
-        jPanel1.add(position42TextEdit, gridBagConstraints);
-
-        position41TextEdit.setText("0");
-        position41TextEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                position41TextEditActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 39;
-        gridBagConstraints.ipady = 13;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 6, 15, 0);
-        jPanel1.add(position41TextEdit, gridBagConstraints);
 
         nTextEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -664,7 +380,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(applyBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(operationTextEdit))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -698,26 +414,6 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void position01TextEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_position01TextEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_position01TextEditActionPerformed
-
-    private void position11TextEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_position11TextEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_position11TextEditActionPerformed
-
-    private void position21TextEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_position21TextEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_position21TextEditActionPerformed
-
-    private void position31TextEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_position31TextEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_position31TextEditActionPerformed
-
-    private void position41TextEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_position41TextEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_position41TextEditActionPerformed
-
     private void createMatrixBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createMatrixBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_createMatrixBtnActionPerformed
@@ -725,10 +421,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void nTextEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nTextEditActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nTextEditActionPerformed
-
-    private void position32TextEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_position32TextEditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_position32TextEditActionPerformed
 
     /**
      * @param args the command line arguments
@@ -778,30 +470,5 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField mTextEdit;
     private javax.swing.JTextField nTextEdit;
     private javax.swing.JTextField operationTextEdit;
-    private javax.swing.JTextField position00TextEdit;
-    private javax.swing.JTextField position01TextEdit;
-    private javax.swing.JTextField position02TextEdit;
-    private javax.swing.JTextField position03TextEdit;
-    private javax.swing.JTextField position04TextEdit;
-    private javax.swing.JTextField position10TextEdit;
-    private javax.swing.JTextField position11TextEdit;
-    private javax.swing.JTextField position12TextEdit;
-    private javax.swing.JTextField position13TextEdit;
-    private javax.swing.JTextField position14TextEdit;
-    private javax.swing.JTextField position20TextEdit;
-    private javax.swing.JTextField position21TextEdit;
-    private javax.swing.JTextField position22TextEdit;
-    private javax.swing.JTextField position23TextEdit;
-    private javax.swing.JTextField position24TextEdit;
-    private javax.swing.JTextField position30TextEdit;
-    private javax.swing.JTextField position31TextEdit;
-    private javax.swing.JTextField position32TextEdit;
-    private javax.swing.JTextField position33TextEdit;
-    private javax.swing.JTextField position34TextEdit;
-    private javax.swing.JTextField position40TextEdit;
-    private javax.swing.JTextField position41TextEdit;
-    private javax.swing.JTextField position42TextEdit;
-    private javax.swing.JTextField position43TextEdit;
-    private javax.swing.JTextField position44TextEdit;
     // End of variables declaration//GEN-END:variables
 }
