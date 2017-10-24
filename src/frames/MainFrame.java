@@ -57,7 +57,6 @@ public class MainFrame extends javax.swing.JFrame {
                 gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
                 gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
                 jPanel1.add(position00TextEdit, gridBagConstraints);
-                //this.buttonsMatrix[i][j] = position00TextEdit;
             }
             
         }
