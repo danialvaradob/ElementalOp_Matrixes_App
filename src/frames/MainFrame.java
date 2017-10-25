@@ -24,9 +24,17 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    
+    //private TwoDimentionalArrayList<JTextField> twoArray;
+    public ArrayList[][] array;
+    public JTextField[][] textEditsArray;
+    
     public MainFrame() {
         initComponents();
-        createGrid();
+        createGrid(2,2);
+        
+        
+        
         //hideMatrix();
         String input = "1/3F2+100/200F1";
         String i2 = "F2";
@@ -39,16 +47,18 @@ public class MainFrame extends javax.swing.JFrame {
         */
         //String[] rat = input.split("+");
         String[] rat2 = i2.split("F");
-        
-        System.out.println(parse(rat2[0]));
+        String sss = rat2[0];
+        System.out.println(sss);
+        //System.out.println(parse(rat2[0]));
         
     }
     
-    private void createGrid() {
-        for (int i =0; i < 5; i ++ ) {
-            for (int j = 0; j < 5;j++) {
-                JTextField position00TextEdit = new javax.swing.JTextField();
-                position00TextEdit.setText("0");
+    private void createGrid(int _rows, int _cols) {
+        this.textEditsArray = new JTextField[_rows][_cols];
+        for (int i =0; i < _rows; i ++ ) {
+            for (int j = 0; j < _cols;j++) {
+                this.textEditsArray[i][j] = new javax.swing.JTextField();
+                this.textEditsArray[i][j].setText("0");
                 GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
                 gridBagConstraints.gridx = i;
                 gridBagConstraints.gridy = j;
@@ -56,7 +66,7 @@ public class MainFrame extends javax.swing.JFrame {
                 gridBagConstraints.ipady = 13;
                 gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
                 gridBagConstraints.insets = new java.awt.Insets(6, 6, 0, 0);
-                jPanel1.add(position00TextEdit, gridBagConstraints);
+                jPanel1.add(this.textEditsArray[i][j], gridBagConstraints);
             }
             
         }
@@ -348,7 +358,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
-        jTextArea1.setText("Las entradas de las Matrices solo pueden ");
+        jTextArea1.setText("Eliminacion\n--------------------------\nLas entradas de las Matrices solo\npueden ser enteros o fracciones\npor ejemplo:\n1/3, -1/4..\n\nEjemplos de Operaciones\n--------------------------\n\n-Se modifica la 1era fila\ndigitada\n>f2,f3 o f1;2 \n> 2f2 o 2F1\n>");
         jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
