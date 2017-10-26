@@ -42,8 +42,8 @@ public class MainFrame extends javax.swing.JFrame {
         
         
         //hideMatrix();
-        String input = "1/3F2+100/200F1";
-        String i2 = "F2";
+        String input = "1/3F2 + 100/200F1";
+        String i2 = "7667F2";
         /*
         Scanner s = new Scanner(input).useDelimiter("\\s*+\\s");
         while (s.hasNext()) {
@@ -51,9 +51,13 @@ public class MainFrame extends javax.swing.JFrame {
         }
         System.out.println(parse("15"));
         */
-        //String[] rat = input.split("+");
-        String[] rat2 = i2.split("F");
-        String sss = rat2[0];
+        input = input.replaceAll("\\s+","");
+        //input = input.replaceAll("\\+","X");
+        
+        if (input.contains("+")) System.out.println("SI CONTIENE");
+        String[] rat = input.split("\\+");
+        //String[] rat2 = i2.split("F");
+        String sss = rat[0];
         System.out.println(sss);
         //System.out.println(parse(rat2[0]));
         
@@ -183,7 +187,7 @@ public class MainFrame extends javax.swing.JFrame {
         String input = _string.replaceAll("f", "F;");
         double mult1,mult2;
         if (input.contains("+")) {
-            String[] rat = _string.split("+");
+            String[] rat = _string.split("\\+");
             
             //First row op
             String firstRow = rat[0];
@@ -471,7 +475,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         //AFTER VERFYING THE TEXTEDIT!
-        //applyOperation(this.matrix,this.operationTextEdit.getText());
+        applyOperation(this.matrix,this.operationTextEdit.getText());
         text += this.matrix.getMatrixString();
         jTextArea1.setText("");
         jTextArea1.setText(text);
