@@ -111,6 +111,7 @@
         <Property name="text" type="java.lang.String" value="Crear Matriz"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="createMatrixBtnMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createMatrixBtnActionPerformed"/>
       </Events>
     </Component>

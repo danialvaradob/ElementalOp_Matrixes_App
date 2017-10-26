@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -25,13 +26,11 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     
-    //private TwoDimentionalArrayList<JTextField> twoArray;
-    public ArrayList[][] array;
     public JTextField[][] textEditsArray;
     
     public MainFrame() {
         initComponents();
-        createGrid(2,2);
+        createGrid(1,5);
         
         
         
@@ -81,84 +80,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
-    /*
-    private void hideMatrix() {
-        position00TextEdit.setVisible(false);
-        position02TextEdit.setVisible(false);
-        position01TextEdit.setVisible(false);
-        position03TextEdit.setVisible(false);
-        position04TextEdit.setVisible(false);
-        position10TextEdit.setVisible(false);
-        position14TextEdit.setVisible(false);
-        position13TextEdit.setVisible(false);
-        position12TextEdit.setVisible(false);
-        position11TextEdit.setVisible(false);
-        position20TextEdit.setVisible(false);
-        position24TextEdit.setVisible(false);
-        position23TextEdit.setVisible(false);
-        position22TextEdit.setVisible(false);
-        position21TextEdit.setVisible(false);
-        position30TextEdit.setVisible(false);
-        position34TextEdit.setVisible(false);
-        position33TextEdit.setVisible(false);
-        position32TextEdit.setVisible(false);
-        position31TextEdit.setVisible(false);
-        position40TextEdit.setVisible(false);
-        position44TextEdit.setVisible(false);
-        position43TextEdit.setVisible(false);
-        position42TextEdit.setVisible(false);
-        position41TextEdit.setVisible(false);
-    
-    }
-    
-    private void createMatrixMxN(int _m, int _n) {
-        
-        
-        
-        if (_m == 1) position00TextEdit.setVisible(true);
-        if (_m == 2) position10TextEdit.setVisible(true);
-        if (_m == 3) position20TextEdit.setVisible(true);
-        if (_m == 4) position30TextEdit.setVisible(true);
-        if (_m == 5) position40TextEdit.setVisible(true);
-        
-        if (_n == 1) {
-            position00TextEdit.setVisible(true);
-            position01TextEdit.setVisible(true);
-            position02TextEdit.setVisible(true);
-            position03TextEdit.setVisible(true);
-            position04TextEdit.setVisible(true);
-        }
-        if (_n == 2) {
-            position10TextEdit.setVisible(true);
-            position11TextEdit.setVisible(true);
-            position12TextEdit.setVisible(true);
-            position13TextEdit.setVisible(true);
-            position14TextEdit.setVisible(true);
-        }
-        if (_n == 3) {
-            position20TextEdit.setVisible(true);
-            position21TextEdit.setVisible(true);
-            position22TextEdit.setVisible(true);
-            position23TextEdit.setVisible(true);
-            position24TextEdit.setVisible(true);
-        }
-        if (_n == 4) {
-            position30TextEdit.setVisible(true);
-            position31TextEdit.setVisible(true);
-            position32TextEdit.setVisible(true);
-            position33TextEdit.setVisible(true);
-            position34TextEdit.setVisible(true);
-        }
-        if (_n == 5) {
-            position40TextEdit.setVisible(true);
-            position41TextEdit.setVisible(true);
-            position42TextEdit.setVisible(true);
-            position43TextEdit.setVisible(true);
-            position44TextEdit.setVisible(true);
-        }
-        
-    }
-    */
     private Instruction verifyString(String _string) {
         
         int fChars = 0;
@@ -218,8 +139,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
         return state;
     }
-    
-    
     private void swapRowsOp(Matrix _matrix, String _string) {
         boolean first = true;
         int rowN1=1 ,rowN2 = 1;
@@ -242,7 +161,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
         _matrix.swapRows(rowN1, rowN2);
     }
-       
     private void applyOperation(Matrix _matrix, String _string) {
         //makes every f and F
         String input = _string.replaceAll("f", "F;");
@@ -306,7 +224,20 @@ public class MainFrame extends javax.swing.JFrame {
         }
            
     }
-    
+    private boolean number1to5(char c) {
+        switch (c) {
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+                return true;
+        }
+        return false;
+    }
+    private void msgbox(String s){
+        JOptionPane.showMessageDialog(null, s);
+    }
     
     
     
@@ -342,6 +273,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         createMatrixBtn.setText("Crear Matriz");
+        createMatrixBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                createMatrixBtnMouseClicked(evt);
+            }
+        });
         createMatrixBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createMatrixBtnActionPerformed(evt);
@@ -430,6 +366,40 @@ public class MainFrame extends javax.swing.JFrame {
     private void nTextEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nTextEditActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nTextEditActionPerformed
+
+    private void createMatrixBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createMatrixBtnMouseClicked
+        boolean error_flag = false;
+        StringTokenizer nToken = new StringTokenizer(nTextEdit.getText());
+        for (int i = 1; nToken.hasMoreTokens(); i++) {
+            String stringPart = nToken.nextToken();
+            for (int j =0; j < stringPart.length(); j++ ){
+                char c = stringPart.charAt(j);
+                if (!number1to5(c)) {error_flag = true; break;}
+                if (j==1) {error_flag = true; break;}
+            }
+            if (error_flag) break;
+        } 
+        if (!error_flag) {
+            StringTokenizer mToken = new StringTokenizer(mTextEdit.getText());
+            for (int i = 1; mToken.hasMoreTokens(); i++) {
+            String stringPart = mToken.nextToken();
+            for (int j =0; j < stringPart.length(); j++ ){
+                char c = stringPart.charAt(j);
+                if (!number1to5(c)) {error_flag = true; break;}
+                if (j==1) {error_flag = true; break;}
+                }
+            if (error_flag) break;
+            }
+        }
+        
+        if (error_flag) msgbox("Por favor verifique los datos ingresados");
+        else {
+            int n = Integer.valueOf(nTextEdit.getText().trim());
+            int m = Integer.valueOf(mTextEdit.getText().trim());
+            createGrid(m,n);
+            createMatrixBtn.setEnabled(false);
+        }
+    }//GEN-LAST:event_createMatrixBtnMouseClicked
 
     /**
      * @param args the command line arguments
