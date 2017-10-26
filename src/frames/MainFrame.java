@@ -83,7 +83,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         jPanel1.revalidate();
         jPanel1.repaint();
-        matrix = new Matrix(_rows,_cols);
+        matrix = new Matrix(_cols,_rows);
     }
     
     private double parse(String ratio) {
@@ -469,9 +469,13 @@ public class MainFrame extends javax.swing.JFrame {
              String txt = jTextArea1.getText();
              text += txt + newLineM;
         }
+        
+        //AFTER VERFYING THE TEXTEDIT!
+        //applyOperation(this.matrix,this.operationTextEdit.getText());
         text += this.matrix.getMatrixString();
         jTextArea1.setText("");
         jTextArea1.setText(text);
+        int x = 0;
         
     }//GEN-LAST:event_applyBtnMouseClicked
 
