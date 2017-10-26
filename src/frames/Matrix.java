@@ -59,7 +59,9 @@ public class Matrix {
            }
     }
     public static String fixedLengthString(String string) {
-        return String.format("%1$"+6+ "s", string);
+        return String.format("%1$-8s", string);
+        //return String.format("%1$"+6+ "s", string);
+        
     }
     public void multiplyRow(int _rowNumber, double _multiplier) {
         for (int i =0; i < this.numberOfColumns; i++) {

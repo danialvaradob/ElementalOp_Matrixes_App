@@ -152,6 +152,7 @@
       <SubComponents>
         <Component class="javax.swing.JTextArea" name="jTextArea1">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="columns" type="int" value="20"/>
             <Property name="rows" type="int" value="5"/>
             <Property name="text" type="java.lang.String" value="Eliminacion&#xa;--------------------------&#xa;Las entradas de las Matrices solo&#xa;pueden ser enteros o fracciones&#xa;por ejemplo:&#xa;1/3, -1/4..&#xa;&#xa;Ejemplos de Operaciones&#xa;--------------------------&#xa;&#xa;-Se modifica la 1era fila&#xa;digitada&#xa;&gt;f2,f3 o f1;2 &#xa;&gt; 2f2 o 2F1&#xa;&gt;"/>

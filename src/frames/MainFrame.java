@@ -65,6 +65,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void init2(){
         applyBtn.setEnabled(false);
+        
     }
     
     
@@ -319,6 +320,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jButton2.setText("Deshacer");
 
+        jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jTextArea1.setText("Eliminacion\n--------------------------\nLas entradas de las Matrices solo\npueden ser enteros o fracciones\npor ejemplo:\n1/3, -1/4..\n\nEjemplos de Operaciones\n--------------------------\n\n-Se modifica la 1era fila\ndigitada\n>f2,f3 o f1;2 \n> 2f2 o 2F1\n>");
@@ -475,11 +477,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         //AFTER VERFYING THE TEXTEDIT!
-        applyOperation(this.matrix,this.operationTextEdit.getText());
+        //applyOperation(this.matrix,this.operationTextEdit.getText());
         text += this.matrix.getMatrixString();
         jTextArea1.setText("");
         jTextArea1.setText(text);
-        int x = 0;
         
     }//GEN-LAST:event_applyBtnMouseClicked
 
