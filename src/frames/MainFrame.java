@@ -71,8 +71,8 @@ public class MainFrame extends javax.swing.JFrame {
                 this.textEditsArray[i][j] = new javax.swing.JTextField();
                 this.textEditsArray[i][j].setText("0");
                 GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
-                gridBagConstraints.gridx = i;
-                gridBagConstraints.gridy = j;
+                gridBagConstraints.gridx = j;
+                gridBagConstraints.gridy = i;
                 gridBagConstraints.ipadx = 39;
                 gridBagConstraints.ipady = 13;
                 gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
@@ -424,7 +424,7 @@ public class MainFrame extends javax.swing.JFrame {
             //createGrid(m,n);
             //this.nrow = m;
             //this.ncol = n;
-            createGrid(n,m);
+            createGrid(m,n);
             this.nrow = m;
             this.ncol = n;
             
