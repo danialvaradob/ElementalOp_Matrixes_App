@@ -59,7 +59,25 @@ public class MainFrame extends javax.swing.JFrame {
         //String[] rat2 = i2.split("F");
         String sss = rat[0];
         System.out.println(sss);
-        //System.out.println(parse(rat2[0]));
+        //System.out.println(parse(rat2[0]));\\\
+        
+        /*
+        PRUEBAS
+        */
+        
+        Matrix m1 = new Matrix(5,2);
+        for (int i = 0; i < 5; i++) {
+            m1.modifyPosition(0, i, i+1);
+        }
+        for (int i = 0; i < 5; i++) {
+            m1.modifyPosition(1, i, 1);
+        }
+        
+        m1.operateRows(1, 2, '+', 1, 1);
+        int x = 0;
+        
+        
+        
         
     }
     
@@ -185,10 +203,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void applyOperation(Matrix _matrix, String _string) {
         //makes every f and F
         _string = _string.replaceAll("\\s+","");
-        String input = _string.replaceAll("f", "F;");
+        String input = _string.replaceAll("f", "F");
         double mult1,mult2;
         if (input.contains("+")) {
-            String[] rat = _string.split("\\+");
+            String[] rat = input.split("\\+");
             
             //First row op
             String firstRow = rat[0];
@@ -216,8 +234,8 @@ public class MainFrame extends javax.swing.JFrame {
             _matrix.operateRows(rowN1, rowN2, '+', mult1, mult2);
             
             
-        } else if (_string.contains("-")) {
-            String[] rat = _string.split("-");
+        } else if (input.contains("-")) {
+            String[] rat = input.split("-");
             
              //First row op
             String firstRow = rat[0];
@@ -454,7 +472,7 @@ public class MainFrame extends javax.swing.JFrame {
         String text = "Op" +this.operationCounter;
         String newLine = "\n\n\n";
         String newLineM = "\n\n\n\n\n";
-        text += newLine ;
+        text += newLine;
         
         String element;
         //only the first time gets the stuff that is in the matrix
@@ -477,7 +495,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         //AFTER VERFYING THE TEXTEDIT!
-        //applyOperation(this.matrix,this.operationTextEdit.getText());
+        applyOperation(this.matrix,this.operationTextEdit.getText());
         text += this.matrix.getMatrixString();
         jTextArea1.setText("");
         jTextArea1.setText(text);
