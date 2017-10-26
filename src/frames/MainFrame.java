@@ -425,8 +425,8 @@ public class MainFrame extends javax.swing.JFrame {
             //this.nrow = m;
             //this.ncol = n;
             createGrid(n,m);
-            this.nrow = n;
-            this.ncol = m;
+            this.nrow = m;
+            this.ncol = n;
             
             createMatrixBtn.setEnabled(false);
             nTextEdit.setEnabled(false);
