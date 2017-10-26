@@ -16,17 +16,28 @@ public class Matrix {
     private int numberOfRows; 
     private int numberOfColumns;
     
-    public Matrix(int nRows,int nCols) {
-        numberOfRows = nRows;
-        numberOfColumns = nCols;
+    public Matrix(int j,int i) {
+        numberOfRows = i;
+        numberOfColumns = j;
         this.createEmptyMatrix();
         
     }
     
+    
+    /**
+     * Method the changes a specified position of  the double[][] array
+     * @param i row number
+     * @param j column number 
+     * @param element double, new element in that position
+     */
+    public void modifyPosition(int i, int j, double element) {
+        matrix[i][j] = element;
+    }
     /**
      * Creates a matrix full of 0s 
      */
     public void createEmptyMatrix() {
+        matrix = new double[numberOfRows][numberOfColumns];
         for (int i = 0; i < numberOfRows; i++) {
                     for (int j = 0; j < numberOfColumns; j++) {
                         matrix[i][j] = 0;              
@@ -36,7 +47,6 @@ public class Matrix {
     public void modifyPosition(int row,int col, float newValue) {
         this.matrix[row][col] = newValue;
     }
-    
     public void tokenizeString() {
         
         StringTokenizer st1 = new StringTokenizer("2F2 + 4/3F3");
@@ -48,7 +58,9 @@ public class Matrix {
                }
            }
     }
-    
+    public static String fixedLengthString(String string) {
+        return String.format("%1$"+6+ "s", string);
+    }
     public void multiplyRow(int _rowNumber, double _multiplier) {
         for (int i =0; i < this.numberOfColumns; i++) {
             matrix[_rowNumber-1][i] = matrix[_rowNumber-1][i] * _multiplier;
@@ -84,4 +96,48 @@ public class Matrix {
                 break;
         }
     }
+    public double[][] getMatrix() {
+        return this.matrix;
+    }
+    public String getMatrixString() {
+        String matrixString = "";
+        for (int i = 0; i < numberOfRows; i++) {
+            String lineS = "";        
+            for (int j = 0; j < numberOfColumns; j++) {
+                    //String elementS = Double.toString(matrix[i][j]);
+                    String elementS;
+                    if (matrix[i][j] == 0) {
+                        elementS = "0";
+                    } else {
+                    elementS = toFraction(matrix[i][j],10);
+                    }
+                    lineS += fixedLengthString(elementS);
+            }
+            matrixString += lineS + "\n";
+        }
+    return matrixString;
+    }
+    public static String toFraction(double d, int factor) {
+        StringBuilder sb = new StringBuilder();
+        if (d < 0) {
+            sb.append('-');
+            d = -d;
+        }
+        long l = (long) d;
+        if (l != 0) sb.append(l);
+        d -= l;
+        double error = Math.abs(d);
+        int bestDenominator = 1;
+        for(int i=2;i<=factor;i++) {
+            double error2 = Math.abs(d - (double) Math.round(d * i) / i);
+            if (error2 < error) {
+                error = error2;
+                bestDenominator = i;
+            }
+        }
+        if (bestDenominator > 1)
+            sb.append(' ').append(Math.round(d * bestDenominator)).append('/') .append(bestDenominator);
+        return sb.toString();
+        }
 }
+

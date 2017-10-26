@@ -10,6 +10,7 @@ import static frames.Instruction.OPERATE_ROWS;
 import static frames.Instruction.SWAP_ROWS;
 import java.awt.GridBagConstraints;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -27,9 +28,15 @@ public class MainFrame extends javax.swing.JFrame {
      */
     
     public JTextField[][] textEditsArray;
+    public Matrix matrix;
+    public boolean matrixCreated = false;
+    public int operationCounter = 0;
+    private int nrow = 0;
+    private int ncol = 0;
     
     public MainFrame() {
         initComponents();
+        init2();
         //createGrid(1,5);
         
         
@@ -52,6 +59,11 @@ public class MainFrame extends javax.swing.JFrame {
         
     }
     
+    private void init2(){
+        applyBtn.setEnabled(false);
+    }
+    
+    
     private void createGrid(int _rows, int _cols) {
         this.textEditsArray = new JTextField[_rows][_cols];
         for (int i =0; i < _rows; i ++ ) {
@@ -71,6 +83,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         jPanel1.revalidate();
         jPanel1.repaint();
+        matrix = new Matrix(_rows,_cols);
     }
     
     private double parse(String ratio) {
@@ -142,6 +155,7 @@ public class MainFrame extends javax.swing.JFrame {
         return state;
     }
     private void swapRowsOp(Matrix _matrix, String _string) {
+        _string = _string.replaceAll("\\s+","");
         boolean first = true;
         int rowN1=1 ,rowN2 = 1;
         StringTokenizer st1 = new StringTokenizer(_string);
@@ -165,6 +179,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     private void applyOperation(Matrix _matrix, String _string) {
         //makes every f and F
+        _string = _string.replaceAll("\\s+","");
         String input = _string.replaceAll("f", "F;");
         double mult1,mult2;
         if (input.contains("+")) {
@@ -292,6 +307,11 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2.setText("x");
 
         applyBtn.setText("Aplicar");
+        applyBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                applyBtnMouseClicked(evt);
+            }
+        });
 
         jButton2.setText("Deshacer");
 
@@ -400,13 +420,60 @@ public class MainFrame extends javax.swing.JFrame {
         else {
             int n = Integer.valueOf(nTextEdit.getText().trim());
             int m = Integer.valueOf(mTextEdit.getText().trim());
-            createGrid(m,n);
+            
+            //createGrid(m,n);
+            //this.nrow = m;
+            //this.ncol = n;
+            createGrid(n,m);
+            this.nrow = n;
+            this.ncol = m;
+            
             createMatrixBtn.setEnabled(false);
             nTextEdit.setEnabled(false);
             mTextEdit.setEnabled(false);
+            applyBtn.setEnabled(true);
             
         }
     }//GEN-LAST:event_createMatrixBtnMouseClicked
+
+    private void applyBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_applyBtnMouseClicked
+        // TODO add your handling code here:
+        
+        //System.out.println(operationTextEdit.getText().replaceAll("\\s+",""));
+        
+        
+        
+        this.operationCounter++;
+        
+        String text = "Op" +this.operationCounter;
+        String newLine = "\n\n\n";
+        String newLineM = "\n\n\n\n\n";
+        text += newLine ;
+        
+        String element;
+        //only the first time gets the stuff that is in the matrix
+        if (this.operationCounter == 1) {
+            int i,j;
+            for (i = 0; i < this.nrow; i++) {
+                for (j=0;j < this.ncol; j++) {
+                    //guessing the content is already verified ***
+                    element = textEditsArray[i][j].getText();
+                    this.matrix.modifyPosition(i, j, parse(element));
+                }
+            
+            }
+        }
+        
+        
+        if (matrixCreated) {
+             String txt = jTextArea1.getText();
+             text += txt + newLineM;
+        }
+        text += this.matrix.getMatrixString();
+        jTextArea1.setText("");
+        jTextArea1.setText(text);
+        
+    }//GEN-LAST:event_applyBtnMouseClicked
 
     /**
      * @param args the command line arguments
