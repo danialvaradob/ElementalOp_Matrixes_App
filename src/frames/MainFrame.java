@@ -118,6 +118,15 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    private void hideGrid() {
+        for (int i = 0;i < this.nrow;i++) {
+            for (int j = 0; j< this.ncol;j++) {
+                this.textEditsArray[i][j].setVisible(false);
+            }
+        
+        }
+    }
+    
     private Instruction verifyString(String _string) {
         
         int fChars = 0;
@@ -465,14 +474,11 @@ public class MainFrame extends javax.swing.JFrame {
         
         //System.out.println(operationTextEdit.getText().replaceAll("\\s+",""));
         
-        
+        Instruction type = BAD_INPUT;
         
         this.operationCounter++;
         
-        String text = "Op" +this.operationCounter;
-        String newLine = "\n\n\n";
-        String newLineM = "\n\n\n\n\n";
-        text += newLine;
+       
         
         String element;
         //only the first time gets the stuff that is in the matrix
@@ -488,17 +494,26 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
         
-        
+        String text = "";
+        String newLine = "\n\n";
+        String newLineM = "\n\n";
+        text += newLine;
         if (matrixCreated) {
              String txt = jTextArea1.getText();
              text += txt + newLineM;
+             text += "--------------------------\n";
         }
         
+        text += "Op" +this.operationCounter + " " + this.operationTextEdit.getText() +"\n\n";
+        text += "--------------------------\n";
         //AFTER VERFYING THE TEXTEDIT!
         applyOperation(this.matrix,this.operationTextEdit.getText());
         text += this.matrix.getMatrixString();
+        
         jTextArea1.setText("");
         jTextArea1.setText(text);
+        hideGrid();
+        matrixCreated = true;
         
     }//GEN-LAST:event_applyBtnMouseClicked
 
