@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
  * @author danielalvarado
  */
 public class Matrix {
+    private double[][] matrixBeforeChange;
     private double[][] matrix;
     private int numberOfRows; 
     private int numberOfColumns;
@@ -24,6 +25,10 @@ public class Matrix {
     }
     
     
+    public void copyMatrix() {
+        matrixBeforeChange = matrix;
+    }
+    
     /**
      * Method the changes a specified position of  the double[][] array
      * @param i row number
@@ -32,6 +37,16 @@ public class Matrix {
      */
     public void modifyPosition(int i, int j, double element) {
         matrix[i][j] = element;
+    }
+    
+    
+    public boolean rowChanged(int _row) {
+        for (int i = 0; i < this.numberOfColumns; i++) {
+            if (matrix[_row][i] != matrixBeforeChange[_row][i]) {
+                return true;
+            }
+        }
+        return false;
     }
     /**
      * Creates a matrix full of 0s 

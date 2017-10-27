@@ -118,7 +118,25 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    private void eliminateGridTextEdits() {
+        for (int i = 0;i < this.nrow;i++) {
+            for (int j = 0; j< this.ncol;j++) {
+                this.textEditsArray[i][j].removeAll();
+            }
+        
+        }
+    }
+    
     private void hideGrid() {
+        for (int i = 0;i < this.nrow;i++) {
+            for (int j = 0; j< this.ncol;j++) {
+                this.textEditsArray[i][j].setVisible(false);
+            }
+        
+        }
+    }
+    
+    private void showGrid() {
         for (int i = 0;i < this.nrow;i++) {
             for (int j = 0; j< this.ncol;j++) {
                 this.textEditsArray[i][j].setVisible(false);
@@ -129,33 +147,53 @@ public class MainFrame extends javax.swing.JFrame {
     
     private Instruction verifySwapRows(String _string) {
         Instruction type = SWAP_ROWS;
+        int fcounter = 0;
         try {
-            _string = _string.replaceAll("\\s+","");
-        boolean first = true;
-        int rowN1=1 ,rowN2 = 1;
-        StringTokenizer st1 = new StringTokenizer(_string);
-        for (int i = 1; st1.hasMoreTokens(); i++) {
-            String stringPart = st1.nextToken();
-            for (int j =0; j < stringPart.length(); j++ ){
-                char c = stringPart.charAt(j);
+            
+            for (int j =0; j < _string.length(); j++ ){
+                char c = _string.charAt(j);
                 switch (c) {
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                        int n = Character.getNumericValue(c);
-                        if (first) rowN1 = n;
-                        else rowN2 = n;
+                    case 'f':
+                    case 'F':
+                        fcounter++;
+                        break;
                 }
             }
-        }
+            if (fcounter > 2 || fcounter < 1) return BAD_INPUT;
+            
+            _string = _string.replaceAll("\\s+","");
+            
+            String input = _string.replaceAll(",", ";").replaceAll("f", "F");
+            
+            String[] rat = input.split(";");
+            //Part1 - Left Side
+            String part1 = rat[0].replaceAll("F", "");
+            int rowN1 = Integer.valueOf(part1);
+            if (!isARow(rowN1)) {
+                return BAD_INPUT;
+            }
+            String part2 = rat[1];
+            //Part1 - Right Side
+            if (fcounter == 2) {
+                part2 = part2.replaceAll("F", "");
+            }
+            int rowN2 = Integer.valueOf(part2);
+            if (!isARow(rowN2)) {
+                return BAD_INPUT;
+            }
+            
         } catch (Exception e) {
             return BAD_INPUT;
         }
         return type;
     }
     
+    private boolean isARow(int _n) {
+        if (_n > nrow || _n < 1) {
+            return false;
+        }
+        return true;
+    }
     
     private Instruction verifySumSub(String _string) {
         Instruction type = OPERATE_ROWS;
@@ -246,59 +284,15 @@ public class MainFrame extends javax.swing.JFrame {
     
     private Instruction verifyString(String _string) {
         
-        int fChars = 0;
-        int operators = 0;
-        int punctuations = 0;
-        Instruction state = BAD_INPUT;
-        String input = _string.replaceAll("f", "F");
-        String stringPart = input.replaceAll("\\s+","");
-        double mult1;
-        for (int j =0; j < stringPart.length(); j++ ){
-            char c = stringPart.charAt(j);
-            switch (c) {
-                case 'f':
-                case 'F':
-                    if (fChars > 2) return BAD_INPUT;
-                    fChars++;
-                    if (j != stringPart.length() - 1) {
-                        String firstRow = input;
-                        String[] frs = firstRow.split("F");
-                        //multiplier
-                        try {
-                            mult1 = parse(frs[0]);
-                        }catch (Exception e) {
-                            if (!("".equals(frs[0]))) {
-                                return BAD_INPUT;
-                            }
-                        }
-                        String rightFside = input;
-                        if (input.contains("+")) {
-                            String[] rat = rightFside.split("\\+");
-                        } else if (input.contains("-")) {
-                            String[] rat = rightFside.split("-");
-                        }
-                        
-                    }
-                    break;
-                case '+':
-                case '*':
-                case '-':
-                    if (operators > 1) return BAD_INPUT;
-                    operators++;
-                    state = OPERATE_ROWS;
-                    break;
-                case ';':
-                case ',':
-                    if (punctuations > 1) return BAD_INPUT;
-                    punctuations++;
-                    state = SWAP_ROWS;
-                    break;
-                
-                default:
-                    break;
-            }
+        if (verifySumSub(_string) == OPERATE_ROWS) {
+            return OPERATE_ROWS;
         }
-        return state;
+        if (verifySwapRows(_string) == SWAP_ROWS) {
+            return SWAP_ROWS;
+        }
+        
+        return BAD_INPUT;
+        
     }
     private void swapRowsOp(Matrix _matrix, String _string) {
         _string = _string.replaceAll("\\s+","");
@@ -460,6 +454,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jButton2.setText("Deshacer");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -588,48 +587,114 @@ public class MainFrame extends javax.swing.JFrame {
         
         //System.out.println(operationTextEdit.getText().replaceAll("\\s+",""));
         
-        Instruction type = BAD_INPUT;
         
-        this.operationCounter++;
         
-       
         
-        String element;
-        //only the first time gets the stuff that is in the matrix
-        if (this.operationCounter == 1) {
-            int i,j;
-            for (i = 0; i < this.nrow; i++) {
-                for (j=0;j < this.ncol; j++) {
-                    //guessing the content is already verified ***
-                    element = textEditsArray[i][j].getText();
-                    this.matrix.modifyPosition(i, j, parse(element));
+        
+        Instruction type = verifyString(this.operationTextEdit.getText());
+        
+        int i,j;
+        for (i = 0; i < this.nrow; i++) {
+            for (j=0;j < this.ncol; j++) {
+                //guessing the content is already verified ***
+                String element = textEditsArray[i][j].getText();
+                try {
+                    double x = Double.valueOf(element);
+                } catch (Exception e) {
+                    type = BAD_INPUT;
+                    break;
                 }
-            
+
+            }
+            if (type == BAD_INPUT) {
+                break;
             }
         }
         
-        String text = "";
-        String newLine = "\n\n";
-        String newLineM = "\n\n";
-        text += newLine;
-        if (matrixCreated) {
-             String txt = jTextArea1.getText();
-             text += txt + newLineM;
-             text += "--------------------------\n";
-        }
+        if (type == BAD_INPUT) {
+            msgbox("Por favor verifique los datos ingresados");
         
-        text += "Op" +this.operationCounter + " " + this.operationTextEdit.getText() +"\n\n";
-        text += "--------------------------\n";
-        //AFTER VERFYING THE TEXTEDIT!
-        applyOperation(this.matrix,this.operationTextEdit.getText());
-        text += this.matrix.getMatrixString();
-        
-        jTextArea1.setText("");
-        jTextArea1.setText(text);
-        hideGrid();
-        matrixCreated = true;
+        } else { 
+            this.operationCounter++;
+
+
+
+            String element;
+            //only the first time gets the stuff that is in the matrix
+            if (this.operationCounter == 1) {
+                for (i = 0; i < this.nrow; i++) {
+                    for (j=0;j < this.ncol; j++) {
+                        //guessing the content is already verified ***
+                        element = textEditsArray[i][j].getText();
+                        this.matrix.modifyPosition(i, j, parse(element));
+                    }
+
+                }
+
+            }
+
+            String text = "";
+            String newLine = "\n\n";
+            String newLineM = "\n\n";
+            text += newLine;
+            if (matrixCreated) {
+                 String txt = jTextArea1.getText();
+                 text += txt + newLineM;
+                 text += "--------------------------\n";
+            }
+
+            text += "Op" +this.operationCounter + " " + this.operationTextEdit.getText() +"\n\n";
+            text += "--------------------------\n";
+            //AFTER VERFYING THE TEXTEDIT!
+            if (type == OPERATE_ROWS)  applyOperation(this.matrix,this.operationTextEdit.getText());
+            if (type == SWAP_ROWS)  swapRowsOp(this.matrix,this.operationTextEdit.getText());
+
+            text += this.matrix.getMatrixString();
+            text += newLine;
+
+            jTextArea1.setText("");
+            jTextArea1.setText(text);
+            hideGrid();
+            matrixCreated = true;
+            }
         
     }//GEN-LAST:event_applyBtnMouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        showGrid();
+        
+        String helloMsg = "Eliminacion\n" +
+            "--------------------------\n" +
+            "Las entradas de las Matrices solo\n" +
+            "pueden ser enteros o fracciones\n" +
+            "por ejemplo:\n" +
+            "1/3, -1/4..\n" +
+            "\n" +
+            "Ejemplos de Operaciones\n" +
+            "--------------------------\n" +
+            "\n" +
+            "-Se modifica la 1era fila\n" +
+            "digitada\n" +
+            ">f2,f3 o f1;2 \n" +
+            "> 2f2 o 2F1";
+        jTextArea1.setText("");
+        jTextArea1.setText(helloMsg);
+        eliminateGridTextEdits();
+        matrixCreated = false;
+        operationCounter = 0;
+        nrow = 0;
+        ncol = 0;
+        createMatrixBtn.setEnabled(true);
+        nTextEdit.setEnabled(true);
+        mTextEdit.setEnabled(true);
+        applyBtn.setEnabled(false);
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments
