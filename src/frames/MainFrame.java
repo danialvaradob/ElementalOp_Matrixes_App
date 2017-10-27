@@ -128,8 +128,31 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     private Instruction verifySwapRows(String _string) {
-        Instruction type = BAD_INPUT;
-        
+        Instruction type = SWAP_ROWS;
+        try {
+            _string = _string.replaceAll("\\s+","");
+        boolean first = true;
+        int rowN1=1 ,rowN2 = 1;
+        StringTokenizer st1 = new StringTokenizer(_string);
+        for (int i = 1; st1.hasMoreTokens(); i++) {
+            String stringPart = st1.nextToken();
+            for (int j =0; j < stringPart.length(); j++ ){
+                char c = stringPart.charAt(j);
+                switch (c) {
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                        int n = Character.getNumericValue(c);
+                        if (first) rowN1 = n;
+                        else rowN2 = n;
+                }
+            }
+        }
+        } catch (Exception e) {
+            return BAD_INPUT;
+        }
         return type;
     }
     
