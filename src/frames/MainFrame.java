@@ -42,15 +42,16 @@ public class MainFrame extends javax.swing.JFrame {
         
         
         //hideMatrix();
-        String input = "1/3F2 + 100/200F1";
+        String input = "1/3F2 + 100/20jhj0F1";
         String i2 = "7667F2";
+        System.out.println(verifySumSub(input));
         /*
         Scanner s = new Scanner(input).useDelimiter("\\s*+\\s");
         while (s.hasNext()) {
             System.out.println(s.next());
         }
         System.out.println(parse("15"));
-        */
+        
         input = input.replaceAll("\\s+","");
         //input = input.replaceAll("\\+","X");
         
@@ -61,9 +62,7 @@ public class MainFrame extends javax.swing.JFrame {
         System.out.println(sss);
         //System.out.println(parse(rat2[0]));\\\
         
-        /*
-        PRUEBAS
-        */
+        
         
         Matrix m1 = new Matrix(5,2);
         for (int i = 0; i < 5; i++) {
@@ -76,6 +75,7 @@ public class MainFrame extends javax.swing.JFrame {
         m1.operateRows(1, 2, '+', 1, 1);
         int x = 0;
         
+        */
         
         
         
@@ -127,61 +127,152 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }
     
+    private Instruction verifySwapRows(String _string) {
+        Instruction type = BAD_INPUT;
+        
+        return type;
+    }
+    
+    
+    private Instruction verifySumSub(String _string) {
+        Instruction type = OPERATE_ROWS;
+        
+        //makes every f and F
+        try{
+            _string = _string.replaceAll("\\s+","");
+            String input = _string.replaceAll("f", "F");
+            double mult1,mult2;
+            if (input.contains("+")) {
+                String[] rat = input.split("\\+");
+
+                //First row op
+                String firstRow = rat[0];
+                String[] frs = firstRow.split("F");
+                //multiplier
+                try {
+                    mult1 = parse(frs[0]);
+                }catch (Exception e) {
+                    if (!("".equals(frs[0]))) {
+                                return BAD_INPUT;
+                            }
+                }
+                //first row number
+                int rowN1 = (int)parse(frs[1]);
+                //----------------------------------------
+                //Second row p[
+                String secondRow = rat[1];
+                String[] srs = secondRow.split("F");
+                //multiplier
+                try {
+                    mult2 = parse(srs[0]);
+                }catch (Exception e2) {
+                    if (!("".equals(srs[0]))) {
+                                return BAD_INPUT;
+                            }
+                }
+                //second row number
+                int rowN2 = (int)parse(srs[1]);
+
+
+            } else if (input.contains("-")) {
+                String[] rat = input.split("-");
+
+                 //First row op
+                String firstRow = rat[0];
+                String[] frs = firstRow.split("F");
+                //multiplier
+                try {
+                    mult1 = parse(frs[0]);
+                }catch (Exception e) {
+                    if (!("".equals(frs[0]))) {
+                                return BAD_INPUT;
+                            }
+                }
+                //first row number
+                int rowN1 = (int)parse(frs[1]);
+                //----------------------------------------
+                //Second row p[
+                String secondRow = rat[1];
+                String[] srs = secondRow.split("F");
+                //multiplier
+                try {
+                    mult2 = parse(srs[0]);
+                }catch (Exception e2) {
+                    if (!("".equals(srs[0]))) {
+                                return BAD_INPUT;
+                            }
+                }
+                //second row number
+                int rowN2 = (int)parse(srs[1]);
+
+                } else {
+                    return BAD_INPUT;
+                }
+            }
+        catch (Exception e) {
+            return BAD_INPUT;
+        
+        }
+        
+        
+        
+        
+        return type;
+        
+    }
+    
     private Instruction verifyString(String _string) {
         
         int fChars = 0;
         int operators = 0;
         int punctuations = 0;
         Instruction state = BAD_INPUT;
-        int rowNumber1Mult,rowNumber2Mult,rowN1,rowN2;
-        
-        StringTokenizer st1 = new StringTokenizer("2F2 + 4/3F3");
-        for (int i = 1; st1.hasMoreTokens(); i++) {
-            String stringPart = st1.nextToken();
-            
-            for (int j =0; j < stringPart.length(); j++ ){
-                char c = stringPart.charAt(j);
-                switch (c) {
-                    case 'f':
-                    case 'F':
-                        if (fChars > 2) return BAD_INPUT;
-                        fChars++;
-                        if (j != stringPart.length() - 1) {
-                            char c2 = stringPart.charAt(j + 1);
-                            try {
-                                int n = Character.getNumericValue(c2);
-                                if (fChars == 1) rowN1 = n;
-                                if (fChars == 2) rowN2 = n;
-                            } catch  (Exception e) {
+        String input = _string.replaceAll("f", "F");
+        String stringPart = input.replaceAll("\\s+","");
+        double mult1;
+        for (int j =0; j < stringPart.length(); j++ ){
+            char c = stringPart.charAt(j);
+            switch (c) {
+                case 'f':
+                case 'F':
+                    if (fChars > 2) return BAD_INPUT;
+                    fChars++;
+                    if (j != stringPart.length() - 1) {
+                        String firstRow = input;
+                        String[] frs = firstRow.split("F");
+                        //multiplier
+                        try {
+                            mult1 = parse(frs[0]);
+                        }catch (Exception e) {
+                            if (!("".equals(frs[0]))) {
                                 return BAD_INPUT;
-                            } 
-                            
+                            }
                         }
-                        break;
-                    case '+':
-                    case '*':
-                    case '-':
-                        if (operators > 1) return BAD_INPUT;
-                        operators++;
-                        state = OPERATE_ROWS;
-                        break;
-                    case ';':
-                    case ',':
-                        if (punctuations > 1) return BAD_INPUT;
-                        punctuations++;
-                        state = SWAP_ROWS;
-                        break;
-                    case '/':
-                        if (i == 0) return BAD_INPUT;
+                        String rightFside = input;
+                        if (input.contains("+")) {
+                            String[] rat = rightFside.split("\\+");
+                        } else if (input.contains("-")) {
+                            String[] rat = rightFside.split("-");
+                        }
                         
-                    default:
-                        break;
-                }
+                    }
+                    break;
+                case '+':
+                case '*':
+                case '-':
+                    if (operators > 1) return BAD_INPUT;
+                    operators++;
+                    state = OPERATE_ROWS;
+                    break;
+                case ';':
+                case ',':
+                    if (punctuations > 1) return BAD_INPUT;
+                    punctuations++;
+                    state = SWAP_ROWS;
+                    break;
                 
-                
-                
-                
-                
+                default:
+                    break;
             }
         }
         return state;
