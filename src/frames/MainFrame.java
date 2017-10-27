@@ -87,6 +87,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     
+    
     private void createGrid(int _rows, int _cols) {
         this.textEditsArray = new JTextField[_rows][_cols];
         for (int i =0; i < _rows; i ++ ) {
@@ -584,12 +585,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void applyBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_applyBtnMouseClicked
         // TODO add your handling code here:
-        
-        //System.out.println(operationTextEdit.getText().replaceAll("\\s+",""));
-        
-        
-        
-        
         
         Instruction type = verifyString(this.operationTextEdit.getText());
         
