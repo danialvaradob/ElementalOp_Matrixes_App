@@ -9,11 +9,7 @@ import static frames.Instruction.BAD_INPUT;
 import static frames.Instruction.OPERATE_ROWS;
 import static frames.Instruction.SWAP_ROWS;
 import java.awt.GridBagConstraints;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -37,10 +33,6 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         init2();
-        //createGrid(1,5);
-        
-        
-        
         //hideMatrix();
         String input = "1/3F2 + 100/20jhj0F1";
         String i2 = "7667F2";
