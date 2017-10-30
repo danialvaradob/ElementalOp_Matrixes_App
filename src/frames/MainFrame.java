@@ -140,7 +140,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void showGrid() {
         for (int i = 0;i < this.nrow;i++) {
             for (int j = 0; j< this.ncol;j++) {
-                this.textEditsArray[i][j].setVisible(false);
+                this.textEditsArray[i][j].setVisible(true);
             }
         
         }
@@ -539,7 +539,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_nTextEditActionPerformed
 
     private void createMatrixBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_createMatrixBtnMouseClicked
-        boolean error_flag = false;
+        
+        if ("".equals(nTextEdit.getText()) || "".equals(mTextEdit.getText()))
+            msgbox("Por favor verifique el tamahno de la matriz");
+        else {boolean error_flag = false;
         StringTokenizer nToken = new StringTokenizer(nTextEdit.getText());
         for (int i = 1; nToken.hasMoreTokens(); i++) {
             String stringPart = nToken.nextToken();
@@ -581,6 +584,7 @@ public class MainFrame extends javax.swing.JFrame {
             applyBtn.setEnabled(true);
             
         }
+       }
     }//GEN-LAST:event_createMatrixBtnMouseClicked
 
     private void applyBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_applyBtnMouseClicked
@@ -657,7 +661,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
-        showGrid();
+        //showGrid();
         
         String helloMsg = "Eliminacion\n" +
             "--------------------------\n" +
