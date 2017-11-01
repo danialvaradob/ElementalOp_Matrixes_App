@@ -29,47 +29,11 @@ public class MainFrame extends javax.swing.JFrame {
     public int operationCounter = 0;
     private int nrow = 0;
     private int ncol = 0;
+    private int rowModified;
     
     public MainFrame() {
         initComponents();
         init2();
-        //hideMatrix();
-        String input = "1/3F2 + 100/20jhj0F1";
-        String i2 = "7667F2";
-        System.out.println(verifySumSub(input));
-        /*
-        Scanner s = new Scanner(input).useDelimiter("\\s*+\\s");
-        while (s.hasNext()) {
-            System.out.println(s.next());
-        }
-        System.out.println(parse("15"));
-        
-        input = input.replaceAll("\\s+","");
-        //input = input.replaceAll("\\+","X");
-        
-        if (input.contains("+")) System.out.println("SI CONTIENE");
-        String[] rat = input.split("\\+");
-        //String[] rat2 = i2.split("F");
-        String sss = rat[0];
-        System.out.println(sss);
-        //System.out.println(parse(rat2[0]));\\\
-        
-        
-        
-        Matrix m1 = new Matrix(5,2);
-        for (int i = 0; i < 5; i++) {
-            m1.modifyPosition(0, i, i+1);
-        }
-        for (int i = 0; i < 5; i++) {
-            m1.modifyPosition(1, i, 1);
-        }
-        
-        m1.operateRows(1, 2, '+', 1, 1);
-        int x = 0;
-        
-        */
-        
-        
         
     }
     
@@ -308,6 +272,10 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         }
+        String n1 = Integer.toString(rowN1);
+        String n2 = Integer.toString(rowN2);
+        rowNumberModifiedTextEdit.setText(n1+" y " +n2);
+        rowModifiedTextEdit.setText("Cambio de filas");
         _matrix.swapRows(rowN1, rowN2);
     }
     private void applyOperation(Matrix _matrix, String _string) {
@@ -341,6 +309,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
             //second row number
             int rowN2 = (int)parse(srs[1]);
+            this.rowModified = rowN1;
             _matrix.operateRows(rowN1, rowN2, '+', mult1, mult2);
             
             
@@ -370,6 +339,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
             //second row number
             int rowN2 = (int)parse(srs[1]);
+            this.rowModified = rowN1;
             _matrix.operateRows(rowN1, rowN2, '-', mult1, mult2);
         }
            
@@ -411,6 +381,10 @@ public class MainFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        rowModifiedTextEdit = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        rowNumberModifiedTextEdit = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Operaciones Elementales en Matrices");
@@ -459,6 +433,12 @@ public class MainFrame extends javax.swing.JFrame {
         jTextArea1.setText("Eliminacion\n--------------------------\nLas entradas de las Matrices solo\npueden ser enteros o fracciones\npor ejemplo:\n1/3, -1/4..\n\nEjemplos de Operaciones\n--------------------------\n\n-Se modifica la 1era fila\ndigitada\n>f2,f3 o f1;2 \n> 2f2 o 2F1\n>");
         jScrollPane1.setViewportView(jTextArea1);
 
+        jLabel3.setText("Fila Modificada:");
+
+        jLabel4.setText("#");
+
+        rowNumberModifiedTextEdit.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -488,15 +468,35 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(applyBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)))))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                            .addComponent(rowModifiedTextEdit))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel3)
+                        .addGap(47, 47, 47)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rowNumberModifiedTextEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(rowNumberModifiedTextEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(rowModifiedTextEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -515,8 +515,8 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addComponent(jButton2))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addContainerGap(25, Short.MAX_VALUE))
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
@@ -590,7 +590,8 @@ public class MainFrame extends javax.swing.JFrame {
                 //guessing the content is already verified ***
                 String element = textEditsArray[i][j].getText();
                 try {
-                    double x = Double.valueOf(element);
+                    //double x = Double.valueOf(element);
+                    double y = parse(element);
                 } catch (Exception e) {
                     type = BAD_INPUT;
                     break;
@@ -625,6 +626,8 @@ public class MainFrame extends javax.swing.JFrame {
             }
 
             String text = "";
+            text += "Matriz Original" + "\n\n";
+            text += this.matrix.getMatrixString();
             String newLine = "\n\n";
             String newLineM = "\n\n";
             text += newLine;
@@ -639,7 +642,9 @@ public class MainFrame extends javax.swing.JFrame {
             //AFTER VERFYING THE TEXTEDIT!
             if (type == OPERATE_ROWS)  applyOperation(this.matrix,this.operationTextEdit.getText());
             if (type == SWAP_ROWS)  swapRowsOp(this.matrix,this.operationTextEdit.getText());
-
+            if (type == OPERATE_ROWS) {
+                rowModifiedTextEdit.setText(this.matrix.getRowString(rowModified));
+                rowNumberModifiedTextEdit.setText(Integer.toString(rowModified));}
             text += this.matrix.getMatrixString();
             text += newLine;
 
@@ -680,6 +685,7 @@ public class MainFrame extends javax.swing.JFrame {
         nTextEdit.setEnabled(true);
         mTextEdit.setEnabled(true);
         applyBtn.setEnabled(false);
+        rowNumberModifiedTextEdit.setText("");
         
         
         
@@ -729,11 +735,15 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField mTextEdit;
     private javax.swing.JTextField nTextEdit;
     private javax.swing.JTextField operationTextEdit;
+    private javax.swing.JTextField rowModifiedTextEdit;
+    private javax.swing.JTextField rowNumberModifiedTextEdit;
     // End of variables declaration//GEN-END:variables
 }

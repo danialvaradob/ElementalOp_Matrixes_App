@@ -134,6 +134,26 @@ public class Matrix {
         }
     return matrixString;
     }
+    
+    public String getRowString(int rowNumber){
+        String lineS = "";  
+        for (int i = 0; i < numberOfRows; i++) {
+            if (i == rowNumber-1){
+                for (int j = 0; j < numberOfColumns; j++) {
+                    //String elementS = Double.toString(matrix[i][j]);
+                    String elementS;
+                    if (matrix[i][j] == 0) {
+                        elementS = "0";
+                    } else {
+                    elementS = toFraction(matrix[i][j],10);
+                    }
+                    lineS += fixedLengthString(elementS);
+                }
+            }
+        }
+    return lineS;
+    }
+    
     public static String toFraction(double d, int factor) {
         StringBuilder sb = new StringBuilder();
         if (d < 0) {
