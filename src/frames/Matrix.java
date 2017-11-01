@@ -154,6 +154,22 @@ public class Matrix {
     return lineS;
     }
     
+    public String getElementString(int _i, int _j) {
+        String e = "";
+        for (int i = 0; i < numberOfRows; i++) {
+                    for (int j = 0; j < numberOfColumns; j++) {
+                        if (j == _j && i == _i) {
+                            if (matrix[i][j] == 0) {
+                                e = "0";
+                            } else {
+                                e = toFraction(matrix[i][j],10);
+                    }
+                        }              
+                    }
+                }
+        return e;
+    }
+    
     public static String toFraction(double d, int factor) {
         StringBuilder sb = new StringBuilder();
         if (d < 0) {

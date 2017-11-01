@@ -10,6 +10,7 @@ import static frames.Instruction.OPERATE_ROWS;
 import static frames.Instruction.SWAP_ROWS;
 import java.awt.GridBagConstraints;
 import java.util.StringTokenizer;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -24,12 +25,16 @@ public class MainFrame extends javax.swing.JFrame {
      */
     
     public JTextField[][] textEditsArray;
+    public Matrix lastMatrix; 
+    public String lastMatrixString;
     public Matrix matrix;
     public boolean matrixCreated = false;
     public int operationCounter = 0;
     private int nrow = 0;
     private int ncol = 0;
     private int rowModified;
+    private Vector <PreviousSettings> previousSettingsList = new Vector <PreviousSettings>();
+    //private Vector<Prestamo> listaPrestamo =  new Vector<Prestamo>();
     
     public MainFrame() {
         initComponents();
@@ -39,10 +44,21 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void init2(){
         applyBtn.setEnabled(false);
-        
+        this.newMatrixBtn.setVisible(false);
     }
     
-    
+    /**
+     * This Method shows the grid and puts the values of the matrix in it
+     */
+    private void setGrid() {
+        showGrid();
+        for (int i = 0;i < this.nrow;i++) {
+            for (int j = 0; j< this.ncol;j++) {
+                this.textEditsArray[i][j].setText(this.matrix.getElementString(i, j));
+            }
+        }
+        
+    }
     
     private void createGrid(int _rows, int _cols) {
         this.textEditsArray = new JTextField[_rows][_cols];
@@ -63,6 +79,7 @@ public class MainFrame extends javax.swing.JFrame {
         }
         jPanel1.revalidate();
         jPanel1.repaint();
+        
         matrix = new Matrix(_cols,_rows);
     }
     
@@ -139,6 +156,10 @@ public class MainFrame extends javax.swing.JFrame {
                 return BAD_INPUT;
             }
             
+            if (rowN2 > nrow || rowN1 > nrow)
+                return BAD_INPUT;
+                
+            
         } catch (Exception e) {
             return BAD_INPUT;
         }
@@ -154,7 +175,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private Instruction verifySumSub(String _string) {
         Instruction type = OPERATE_ROWS;
-        
+        int rowN1= 0,rowN2 = 0;
         //makes every f and F
         try{
             _string = _string.replaceAll("\\s+","");
@@ -175,7 +196,7 @@ public class MainFrame extends javax.swing.JFrame {
                             }
                 }
                 //first row number
-                int rowN1 = (int)parse(frs[1]);
+                 rowN1 = (int)parse(frs[1]);
                 //----------------------------------------
                 //Second row p[
                 String secondRow = rat[1];
@@ -189,7 +210,7 @@ public class MainFrame extends javax.swing.JFrame {
                             }
                 }
                 //second row number
-                int rowN2 = (int)parse(srs[1]);
+                 rowN2 = (int)parse(srs[1]);
 
 
             } else if (input.contains("-")) {
@@ -207,7 +228,7 @@ public class MainFrame extends javax.swing.JFrame {
                             }
                 }
                 //first row number
-                int rowN1 = (int)parse(frs[1]);
+                 rowN1 = (int)parse(frs[1]);
                 //----------------------------------------
                 //Second row p[
                 String secondRow = rat[1];
@@ -221,11 +242,16 @@ public class MainFrame extends javax.swing.JFrame {
                             }
                 }
                 //second row number
-                int rowN2 = (int)parse(srs[1]);
+                 rowN2 = (int)parse(srs[1]);
 
-                } else {
+            } else {
                     return BAD_INPUT;
-                }
+            }
+            if (!isARow(rowN2)|| !isARow(rowN1))
+                return BAD_INPUT;
+            if (rowN2 > nrow || rowN1 > nrow)
+                return BAD_INPUT;
+                
             }
         catch (Exception e) {
             return BAD_INPUT;
@@ -253,6 +279,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     private void swapRowsOp(Matrix _matrix, String _string) {
         _string = _string.replaceAll("\\s+","");
+        Matrix preM;
         boolean first = true;
         int rowN1=1 ,rowN2 = 1;
         StringTokenizer st1 = new StringTokenizer(_string);
@@ -267,7 +294,7 @@ public class MainFrame extends javax.swing.JFrame {
                     case '4':
                     case '5':
                         int n = Character.getNumericValue(c);
-                        if (first) rowN1 = n;
+                        if (first) {rowN1 = n; first = false;}
                         else rowN2 = n;
                 }
             }
@@ -276,7 +303,9 @@ public class MainFrame extends javax.swing.JFrame {
         String n2 = Integer.toString(rowN2);
         rowNumberModifiedTextEdit.setText(n1+" y " +n2);
         rowModifiedTextEdit.setText("Cambio de filas");
+        preM = _matrix;
         _matrix.swapRows(rowN1, rowN2);
+        //if (preM == _matrix) _matrix.swapRows(rowN2, rowN1);
     }
     private void applyOperation(Matrix _matrix, String _string) {
         //makes every f and F
@@ -378,13 +407,14 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         operationTextEdit = new javax.swing.JTextField();
         applyBtn = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        undoBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        printTextArea = new javax.swing.JTextArea();
         rowModifiedTextEdit = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         rowNumberModifiedTextEdit = new javax.swing.JTextField();
+        newMatrixBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Operaciones Elementales en Matrices");
@@ -420,24 +450,31 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Deshacer");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        undoBtn.setText("Deshacer");
+        undoBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
+                undoBtnMouseClicked(evt);
             }
         });
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Eliminacion\n--------------------------\nLas entradas de las Matrices solo\npueden ser enteros o fracciones\npor ejemplo:\n1/3, -1/4..\n\nEjemplos de Operaciones\n--------------------------\n\n-Se modifica la 1era fila\ndigitada\n>f2,f3 o f1;2 \n> 2f2 o 2F1\n>");
-        jScrollPane1.setViewportView(jTextArea1);
+        printTextArea.setEditable(false);
+        printTextArea.setColumns(20);
+        printTextArea.setRows(5);
+        printTextArea.setText("Eliminacion\n--------------------------\nLas entradas de las Matrices solo\npueden ser enteros o fracciones\npor ejemplo:\n1/3, -1/4..\n\nEjemplos de Operaciones\n--------------------------\n\n-Se modifica la 1era fila\ndigitada\n>f2,f3 o f1;2 \n> 2f2 o 2F1\n>");
+        jScrollPane1.setViewportView(printTextArea);
 
         jLabel3.setText("Fila Modificada:");
 
         jLabel4.setText("#");
 
         rowNumberModifiedTextEdit.setText(" ");
+
+        newMatrixBtn.setText("Nueva");
+        newMatrixBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                newMatrixBtnMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -466,7 +503,8 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(operationTextEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(applyBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                                .addComponent(undoBtn, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(newMatrixBtn))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -512,7 +550,9 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(applyBtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2))
+                                .addComponent(undoBtn)
+                                .addGap(18, 18, 18)
+                                .addComponent(newMatrixBtn))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -606,11 +646,26 @@ public class MainFrame extends javax.swing.JFrame {
         if (type == BAD_INPUT) {
             msgbox("Por favor verifique los datos ingresados");
         
-        } else { 
+        } else {
+            Matrix prevM = new Matrix(ncol,nrow);
+            for (int row= 0; row < this.nrow; row ++) {
+                System.arraycopy(this.matrix.getMatrix()[row], 0, prevM.getMatrix()[row], 0, this.ncol);
+            }
+            
+             PreviousSettings settings = new PreviousSettings(prevM,printTextArea.getText(),
+                                            this.operationTextEdit.getText(),this.operationCounter,
+                                            this.rowNumberModifiedTextEdit.getText(),
+                                            this.rowModifiedTextEdit.getText(),this.rowModified);
+            previousSettingsList.add(settings);
+            System.out.println("Settings added " + previousSettingsList.size());
+            this.newMatrixBtn.setVisible(true);
+            
+           
+            
             this.operationCounter++;
-
-
-
+            this.lastMatrixString = printTextArea.getText();
+            String text1 = "";
+            this.lastMatrix = this.matrix;
             String element;
             //only the first time gets the stuff that is in the matrix
             if (this.operationCounter == 1) {
@@ -622,17 +677,16 @@ public class MainFrame extends javax.swing.JFrame {
                     }
 
                 }
-
+                text1 += "Matriz Original" + "\n\n"+ this.matrix.getMatrixString();
             }
 
             String text = "";
-            text += "Matriz Original" + "\n\n";
-            text += this.matrix.getMatrixString();
+            text+= text1;
             String newLine = "\n\n";
             String newLineM = "\n\n";
             text += newLine;
             if (matrixCreated) {
-                 String txt = jTextArea1.getText();
+                 String txt = printTextArea.getText();
                  text += txt + newLineM;
                  text += "--------------------------\n";
             }
@@ -648,18 +702,112 @@ public class MainFrame extends javax.swing.JFrame {
             text += this.matrix.getMatrixString();
             text += newLine;
 
-            jTextArea1.setText("");
-            jTextArea1.setText(text);
+            printTextArea.setText("");
+            printTextArea.setText(text);
             hideGrid();
             matrixCreated = true;
+            newMatrixBtn.setEnabled(false);
+            /**
+             * Matrix _preM, String _prePrintedText, String _preOperationText,
+                             _preOperationCounter, String _preRowNumberMod
+             */
+            
+            
+            /*
+            Matrix newM = new Matrix(this.nrow,this.ncol);
+            for (int x = 0;x < this.nrow;x++) {
+                System.arraycopy(this.matrix.getMatrix()[x], 0, newM.getMatrix()[x], 0, this.ncol);
             }
+            
+            
+            
+            
+            
+            Matrix newM = new Matrix(this.nrow,this.ncol);
+            for (int x = 0;x < this.nrow;x++) {
+                for (int y = 0; y< this.ncol;y++) {
+                    newM.getMatrix()[x][y] = this.matrix.getMatrix()[x][y];
+                }
+            }
+            */
+            
+           
+        
+           }
         
     }//GEN-LAST:event_applyBtnMouseClicked
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+    private void undoBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_undoBtnMouseClicked
         // TODO add your handling code here:
         //showGrid();
+        if (this.operationCounter == 0) {
+            System.out.println();
+        } else {
+            if (this.operationCounter == 1) {
+                String helloMsg = "Eliminacion\n" +
+                    "--------------------------\n" +
+                    "Las entradas de las Matrices solo\n" +
+                    "pueden ser enteros o fracciones\n" +
+                    "por ejemplo:\n" +
+                    "1/3, -1/4..\n" +
+                    "\n" +
+                    "Ejemplos de Operaciones\n" +
+                    "--------------------------\n" +
+                    "\n" +
+                    "-Se modifica la 1era fila\n" +
+                    "digitada\n" +
+                    ">f2,f3 o f1;2 \n" +
+                    "> 2f2 o 2F1";
+                printTextArea.setText("");
+                printTextArea.setText(helloMsg);
+                eliminateGridTextEdits();
+                matrixCreated = false;
+                operationCounter = 0;
+                nrow = 0;
+                ncol = 0;
+                createMatrixBtn.setEnabled(true);
+                nTextEdit.setEnabled(true);
+                mTextEdit.setEnabled(true);
+                applyBtn.setEnabled(false);
+                rowNumberModifiedTextEdit.setText("");
+                this.newMatrixBtn.setVisible(false);
+                jPanel1.revalidate();
+                jPanel1.repaint();
+                System.out.println("Settings added " + previousSettingsList.size());
+            } else {
+                
+                //delete last element
+                //PreviousSettings e = this.previousSettingsList.lastElement();
+                //this.previousSettingsList.remove(e);
+                
+                PreviousSettings ps = this.previousSettingsList.lastElement();
+                Matrix prueba = ps.previousMatrix;
+               
+                this.printTextArea.setText(ps.previousMatrixString);
+                this.matrix = ps.previousMatrix;
+                
+                this.operationTextEdit.setText(ps.operationText);
+                this.operationCounter = ps.previousOperationCounter;
+                this.rowNumberModifiedTextEdit.setText(ps.previousRowNumberModified);
+                this.rowModifiedTextEdit.setText(ps.previousRowModified);
+                this.rowModified = ps.previousRowNumber;
+                // deletes settings just used
+                this.previousSettingsList.remove(ps);
+                //setGrid();
+                jPanel1.revalidate();
+                jPanel1.repaint();
+                System.out.println("Settings added " + previousSettingsList.size());
+                
+                
+            }
+           
         
+        }
+           
+    }//GEN-LAST:event_undoBtnMouseClicked
+
+    private void newMatrixBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newMatrixBtnMouseClicked
+        // TODO add your handling code here:
         String helloMsg = "Eliminacion\n" +
             "--------------------------\n" +
             "Las entradas de las Matrices solo\n" +
@@ -674,8 +822,8 @@ public class MainFrame extends javax.swing.JFrame {
             "digitada\n" +
             ">f2,f3 o f1;2 \n" +
             "> 2f2 o 2F1";
-        jTextArea1.setText("");
-        jTextArea1.setText(helloMsg);
+        printTextArea.setText("");
+        printTextArea.setText(helloMsg);
         eliminateGridTextEdits();
         matrixCreated = false;
         operationCounter = 0;
@@ -685,13 +833,8 @@ public class MainFrame extends javax.swing.JFrame {
         nTextEdit.setEnabled(true);
         mTextEdit.setEnabled(true);
         applyBtn.setEnabled(false);
-        rowNumberModifiedTextEdit.setText("");
-        
-        
-        
-        
-        
-    }//GEN-LAST:event_jButton2MouseClicked
+        rowNumberModifiedTextEdit.setText("");    
+    }//GEN-LAST:event_newMatrixBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -732,18 +875,19 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applyBtn;
     private javax.swing.JButton createMatrixBtn;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField mTextEdit;
     private javax.swing.JTextField nTextEdit;
+    private javax.swing.JButton newMatrixBtn;
     private javax.swing.JTextField operationTextEdit;
+    private javax.swing.JTextArea printTextArea;
     private javax.swing.JTextField rowModifiedTextEdit;
     private javax.swing.JTextField rowNumberModifiedTextEdit;
+    private javax.swing.JButton undoBtn;
     // End of variables declaration//GEN-END:variables
 }
